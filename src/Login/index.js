@@ -1,34 +1,50 @@
 import './index.css';
 import { useState } from 'react';
 import { login } from './utils';
-function Login (){
 
+function Login ({onLoginSuccess}){
 const[username,setUserName] =useState('');
 const[password,setPassword] = useState('');
+const [showModal,setShowModal] =useState(false);
+const [error,setError] =useState('')
 console.log({username});
 
 const handleLogin = async(event) => {
     event.preventDefault();
-    const result = await login({username,password})
-    console.log({result});
+    const result = await login({username,password});
+    if(result.success){
+        setShowModal(false);
+        onLoginSuccess();
+    }else{
+        setError(result.message)
+    }
+    // console.log({result});
 };
 
 
-    return (
-        <div>
-            
-            <form onSubmit={handleLogin}>
-                <h2>Login</h2>
-            <button type = "submit">Login</button>
-                <input placeholder = "Enter username" type="text"onChange={(event) => setUserName(event.target.value)} />
-                <br/>
-                <input placeholder="Enter password" type ="password" onChange={(event) => setPassword(event.target.value)}/>
-                <br/>
-                
-            </form>
-        </div>
+return (
+    <div>
+        <button onClick={() => setShowModal(true)} className="login-button">Login</button>
 
-    )
+        {showModal && (
+            <div className="modal">
+                <div className="modal-content">
+                    <span className="close" onClick={() => setShowModal(false)}>&times;</span>
+                    <form onSubmit={handleLogin}>
+                        <h2>Login</h2>
+                        {error && <p className="error">{error}</p>}
+                        <input placeholder="Enter username" type="text" value={username} onChange={(event) => setUserName(event.target.value)} 
+                        />
+                        <input placeholder="Enter password" type="password" value={password} onChange={(event) => setPassword(event.target.value)} 
+                        />
+                        <button type="submit">Login</button>
+                    </form>
+                </div>
+            </div>
+        )}
+    </div>
+);
 }
-export default Login
+
+export default Login;
 

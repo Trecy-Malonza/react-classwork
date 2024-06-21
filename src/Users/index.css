@@ -1,7 +1,14 @@
-.images{
-    display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-  grid-gap: 10px;
-  padding-left: 70px;
+.users-container {
+  padding: 20px;
+}
+
+.users-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+h2 {
+  text-align: center;
+  color: #333;
 }
